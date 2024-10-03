@@ -1,0 +1,943 @@
+.text-right {
+  text-align: right;
+}
+
+.pos .rightpane .flex-container .pos-report {
+  background: white;
+  padding: 20px;
+}
+
+.pos .rightpane .flex-container .pos-report .report-header,
+.pos .rightpane .flex-container .pos-report .report-sales-recapitulation,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-sales-payment-recapitulation,
+.pos .rightpane .flex-container .pos-report .report-sales-menu,
+.pos .rightpane .flex-container .pos-report .report-promotion-summary,
+.pos .rightpane .flex-container .pos-report .report-non-sales-bill-summary,
+.pos .rightpane .flex-container .pos-report .report-non-sales-menu-summary,
+.pos .rightpane .flex-container .pos-report .report-sales-by-menu,
+.pos .rightpane .flex-container .pos-report .report-non-sales-by-menu {
+  margin-bottom: 20px;
+}
+
+.pos .rightpane .flex-container .pos-report .report-header table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.pos .rightpane .flex-container .pos-report .report-header table td {
+  width: 33.3%;
+}
+
+.pos .rightpane .flex-container .pos-report .report-header table td div {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: medium;
+}
+
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-sales-recapitulation
+  .report-title,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-sales-payment-recapitulation
+  .report-title,
+.pos .rightpane .flex-container .pos-report .report-sales-menu .report-title,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-promotion-summary
+  .report-title,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-non-sales-bill-summary
+  .report-title,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-non-sales-menu-summary
+  .report-title,
+.pos .rightpane .flex-container .pos-report .report-sales-by-menu .report-title,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-non-sales-by-menu
+  .report-title {
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  padding: 15px;
+  background: $o-brand-primary;
+  color: white;
+  font-size: large;
+}
+
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-sales-recapitulation
+  .report-content,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-sales-payment-recapitulation
+  .report-content,
+.pos .rightpane .flex-container .pos-report .report-sales-menu .report-content,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-promotion-summary
+  .report-content,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-non-sales-bill-summary
+  .report-content,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-non-sales-menu-summary
+  .report-content,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-sales-by-menu
+  .report-content,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-non-sales-by-menu
+  .report-content {
+  padding: 10px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-sales-recapitulation
+  .report-content
+  table,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-sales-payment-recapitulation
+  .report-content
+  table,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-sales-menu
+  .report-content
+  table,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-promotion-summary
+  .report-content
+  table,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-non-sales-bill-summary
+  .report-content
+  table,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-non-sales-menu-summary
+  .report-content
+  table,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-sales-by-menu
+  .report-content
+  table,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-non-sales-by-menu
+  .report-content
+  table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-sales-recapitulation
+  .report-content
+  table
+  thead,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-sales-payment-recapitulation
+  .report-content
+  table
+  thead,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-sales-menu
+  .report-content
+  table
+  thead,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-promotion-summary
+  .report-content
+  table
+  thead,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-non-sales-bill-summary
+  .report-content
+  table
+  thead,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-non-sales-menu-summary
+  .report-content
+  table
+  thead,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-sales-by-menu
+  .report-content
+  table
+  thead,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-non-sales-by-menu
+  .report-content
+  table
+  thead {
+  text-align: left;
+}
+
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-sales-recapitulation
+  .report-content
+  table
+  thead
+  tr,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-sales-payment-recapitulation
+  .report-content
+  table
+  thead
+  tr,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-sales-menu
+  .report-content
+  table
+  thead
+  tr,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-promotion-summary
+  .report-content
+  table
+  thead
+  tr,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-non-sales-bill-summary
+  .report-content
+  table
+  thead
+  tr,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-non-sales-menu-summary
+  .report-content
+  table
+  thead
+  tr,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-sales-by-menu
+  .report-content
+  table
+  thead
+  tr,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-non-sales-by-menu
+  .report-content
+  table
+  thead
+  tr {
+  background-color: #fccc96;
+}
+
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-sales-recapitulation
+  .report-content
+  table
+  thead
+  tr
+  th,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-sales-payment-recapitulation
+  .report-content
+  table
+  thead
+  tr
+  th,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-sales-menu
+  .report-content
+  table
+  thead
+  tr
+  th,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-promotion-summary
+  .report-content
+  table
+  thead
+  tr
+  th,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-non-sales-bill-summary
+  .report-content
+  table
+  thead
+  tr
+  th,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-non-sales-menu-summary
+  .report-content
+  table
+  thead
+  tr
+  th,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-sales-by-menu
+  .report-content
+  table
+  thead
+  tr
+  th,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-non-sales-by-menu
+  .report-content
+  table
+  thead
+  tr
+  th {
+  padding: 10px;
+  font-size: medium;
+  background-color: #f2f2f2;
+  color: black;
+}
+
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-sales-by-menu
+  .report-content
+  table
+  thead
+  tr
+  th
+  div,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-non-sales-by-menu
+  .report-content
+  table
+  thead
+  tr
+  th
+  div,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-sales-by-menu
+  .report-content
+  table
+  tbody
+  tr
+  td
+  div
+  div
+  .flex_category,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-non-sales-by-menu
+  .report-content
+  table
+  tbody
+  tr
+  td
+  div
+  div
+  .flex_category {
+  display: flex;
+  align-items: stretch;
+}
+
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-sales-by-menu
+  .report-content
+  table
+  thead
+  tr
+  th
+  div
+  div:nth-child(1),
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-non-sales-by-menu
+  .report-content
+  table
+  thead
+  tr
+  th
+  div
+  div:nth-child(1),
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-sales-by-menu
+  .report-content
+  table
+  tbody
+  tr
+  td
+  div
+  div
+  .flex_category
+  div:nth-child(1),
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-non-sales-by-menu
+  .report-content
+  table
+  tbody
+  tr
+  td
+  div
+  div
+  .flex_category
+  div:nth-child(1) {
+  flex: 100%;
+  margin: 5px;
+}
+
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-sales-by-menu
+  .report-content
+  table
+  thead
+  tr
+  th
+  div
+  div:nth-child(2),
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-non-sales-by-menu
+  .report-content
+  table
+  thead
+  tr
+  th
+  div
+  div:nth-child(2),
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-sales-by-menu
+  .report-content
+  table
+  tbody
+  tr
+  td
+  div
+  div
+  .flex_category
+  div:nth-child(2),
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-non-sales-by-menu
+  .report-content
+  table
+  tbody
+  tr
+  td
+  div
+  div
+  .flex_category
+  div:nth-child(2) {
+  flex: 5rem;
+  margin: 5px;
+}
+
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-sales-by-menu
+  .report-content
+  table
+  thead
+  tr
+  th
+  div
+  div:nth-child(3),
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-non-sales-by-menu
+  .report-content
+  table
+  thead
+  tr
+  th
+  div
+  div:nth-child(3),
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-sales-by-menu
+  .report-content
+  table
+  tbody
+  tr
+  td
+  div
+  div
+  .flex_category
+  div:nth-child(3),
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-non-sales-by-menu
+  .report-content
+  table
+  tbody
+  tr
+  td
+  div
+  div
+  .flex_category
+  div:nth-child(3) {
+  flex: 10rem;
+  margin: 5px;
+  text-align: right;
+}
+
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-sales-by-menu
+  .report-content
+  table
+  tbody
+  tr
+  td
+  div
+  div
+  .child_category,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-non-sales-by-menu
+  .report-content
+  table
+  tbody
+  tr
+  td
+  div
+  div
+  .child_category {
+  padding-top: 5px;
+  padding-left: 30px;
+}
+
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-sales-recapitulation
+  .report-content
+  table
+  tbody
+  tr
+  td
+  div,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-sales-payment-recapitulation
+  .report-content
+  table
+  tbody
+  tr
+  td
+  div,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-sales-menu
+  .report-content
+  table
+  tbody
+  tr
+  td
+  div,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-promotion-summary
+  .report-content
+  table
+  tbody
+  tr
+  td
+  div,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-non-sales-bill-summary
+  .report-content
+  table
+  tbody
+  tr
+  td
+  div,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-non-sales-menu-summary
+  .report-content
+  table
+  tbody
+  tr
+  td
+  div {
+  padding: 10px;
+  font-size: larger;
+}
+
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-sales-recapitulation
+  .report-blank,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-sales-payment-recapitulation
+  .report-blank,
+.pos .rightpane .flex-container .pos-report .report-sales-menu .report-blank,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-promotion-summary
+  .report-blank,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-non-sales-bill-summary
+  .report-blank,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-non-sales-menu-summary
+  .report-blank,
+.pos .rightpane .flex-container .pos-report .report-sales-by-menu .report-blank,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-non-sales-by-menu
+  .report-blank {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-sales-recapitulation
+  .report-blank
+  img,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-sales-payment-recapitulation
+  .report-blank
+  img
+  .pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-sales-menu
+  .report-blank
+  img,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-promotion-summary
+  .report-blank
+  img,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-non-sales-bill-summary
+  .report-blank
+  img,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-non-sales-menu-summary
+  .report-blank
+  img,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-sales-by-menu
+  .report-blank
+  img,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-non-sales-by-menu
+  .report-blank
+  img {
+  pointer-events: none;
+}
+
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-sales-recapitulation
+  .report-blank
+  span,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-sales-payment-recapitulation
+  .report-blank
+  span,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-sales-menu
+  .report-blank
+  span,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-promotion-summary
+  .report-blank
+  span,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-non-sales-bill-summary
+  .report-blank
+  span,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-non-sales-menu-summary
+  .report-blank
+  span,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-sales-by-menu
+  .report-blank
+  span,
+.pos
+  .rightpane
+  .flex-container
+  .pos-report
+  .report-non-sales-by-menu
+  .report-blank
+  span {
+  font-size: large;
+}
+
+.dashboard-button {
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
+  font-size: medium;
+  color: white;
+}
+
+.dashboard-button:hover {
+  background: rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+}
+
+.dashboard-screen {
+  .control-panel {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .right-panel {
+      button {
+        margin: 20px;
+        font-size: 15px;
+        padding: 10px 16px;
+        font-weight: 700;
+      }
+
+      #current-shift {
+        color: $o-brand-primary;
+        font-weight: 700;
+        font-size: 15px;
+        background-color: #ffffff;
+        padding: 10px 16px;
+      }
+    }
+  }
+}

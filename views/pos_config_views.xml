@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <!-- pos.config inherit tree view -->
+    <record id="pos_config_view_form" model="ir.ui.view">
+        <field name="name">pos.config.inherit.view.tree</field>
+        <field name="model">pos.config</field>
+        <field name="inherit_id" ref="point_of_sale.pos_config_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[@id='other_devices']" position="after">
+                <!-- Add your fields here -->
+                <div class="col-12 o_setting_box">
+                    <h2>POS Dashboard Menu</h2>
+                </div>
+                <div class="col-12 col-lg-6 o_setting_box" id="sales_recapitulation">
+                    <div class="o_setting_left_pane">
+                        <field name="sales_recapitulation" />
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <label for="sales_recapitulation" string="Sales Recapitulation" />
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 o_setting_box" id="sales_payment_recapitulation">
+                    <div class="o_setting_left_pane">
+                        <field name="sales_payment_recapitulation" />
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <label for="sales_payment_recapitulation"
+                            string="Sales Payment Recapitulation" />
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 o_setting_box" id="sales_menu">
+                    <div class="o_setting_left_pane">
+                        <field name="sales_menu" />
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <label for="sales_menu"
+                            string="Sales Menu" />
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 o_setting_box" id="promotion_summary">
+                    <div class="o_setting_left_pane">
+                        <field name="promotion_summary" />
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <label for="promotion_summary"
+                            string="Promotion Summary" />
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 o_setting_box" id="non_sales_bill_summary">
+                    <div class="o_setting_left_pane">
+                        <field name="non_sales_bill_summary" />
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <label for="non_sales_bill_summary"
+                            string="Non Sales Bill Summary" />
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 o_setting_box" id="non_sales_menu_summary">
+                    <div class="o_setting_left_pane">
+                        <field name="non_sales_menu_summary" />
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <label for="non_sales_menu_summary"
+                            string="Non Sales Menu Summary" />
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 o_setting_box" id="sales_by_menu">
+                    <div class="o_setting_left_pane">
+                        <field name="sales_by_menu" />
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <label for="sales_by_menu"
+                            string="Sales By Menu" />
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 o_setting_box mb-4" id="non_sales_by_menu">
+                    <div class="o_setting_left_pane">
+                        <field name="non_sales_by_menu" />
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <label for="non_sales_by_menu"
+                            string="Non Sales By Menu" />
+                    </div>
+                </div>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

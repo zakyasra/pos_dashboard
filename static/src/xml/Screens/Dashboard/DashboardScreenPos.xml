@@ -1,0 +1,843 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="DashboardScreenPos" owl="1">
+        <div class="dashboard-screen screen" t-att-class="{ oe_hidden: !props.isShown }">
+            <div class="rightpane">
+                <div class="flex-container">
+                    <div class="control-panel">
+                        <div class="button-back-dashboard" style="margin: 20px;">
+                            <button class="item button back" t-on-click="() => this.trigger('close-screen')" style="font-size: 15px; padding: 10px 16px;">
+                                <span class="search-icon"><i class="fa fa-angle-double-left"/></span>
+                                <span class="fw-bolder"> Back</span>
+                            </button>
+                        </div>
+                        <t t-if="env.pos?.default_pos_shift_ids">
+                            <div class="right-panel">
+                                <button id="select-shift" class="item button"
+                                    t-on-click="onClickChooseShift">
+                                    <t t-esc="get_shift_value" />
+                                </button>
+                                <span id="current-shift" class="item"> Current Shift: <t
+                                        t-esc="currentShift" />
+                                </span>
+                                <button id="end-shift" class="item button highlight"
+                                    t-on-click="endShift">
+                                    End Shift
+                                </button>
+                            </div>
+                        </t>
+                    </div>
+                    <div class="pos-report">
+                        <div class="report-header">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div>
+                                                <strong>Outlet</strong>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div>
+                                                <strong>Starting Shift</strong>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div>
+                                                <strong>End Shift</strong>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div style="padding-right: 20px; font-size: larger;">
+                                                <div style="padding: 10px; border-radius: 5px; background-color: #f2f2f2;">
+                                                    <span t-esc="outlet.name" />
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <!--                                        <td>-->
+                                        <!--                                            <div style="padding-right: 20px; font-size:
+                                        larger;">-->
+                                        <!--                                                <div style="padding: 10px; border-radius: 5px;
+                                        background-color: #f2f2f2;">-->
+                                        <!--                                                    <span t-esc="outlet.pos_session_username" />-->
+                                        <!--                                                </div>-->
+                                        <!--                                            </div>-->
+                                        <!--                                        </td>-->
+                                        <td>
+                                            <div style="font-size: larger; padding-right: 20px;">
+                                                <div style="padding: 10px; border-radius: 5px; background-color: #f2f2f2;">
+                                                    <span t-esc="start_at" />
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div style="font-size: larger;">
+                                                <div style="padding: 10px; border-radius: 5px; background-color: #f2f2f2;">
+                                                    <span t-esc="end_at" />
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div style="padding-top: 10px; padding-bottom: 10px; font-size: medium;">
+                                                <strong>Starting Cash</strong>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div style="padding-top: 10px; padding-bottom: 10px; font-size: medium;">
+                                                <strong>Actual Ending Cash</strong>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div style="padding-top: 10px; padding-bottom: 10px; font-size: medium;">
+                                                <strong>Difference Total</strong>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div style="padding-right: 20px; font-size: larger;">
+                                                <div style="padding: 10px; border-radius: 5px; background-color: #f2f2f2;">
+                                                    <span t-esc="env.pos.format_currency(session.cash_register_balance_start)" />
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div style="padding-right: 20px; font-size: larger;">
+                                                <div style="padding: 10px; border-radius: 5px; background-color: #f2f2f2;">
+                                                    <span t-esc="env.pos.format_currency(actual_ending_cash)" />
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div style="font-size: larger;">
+                                                <div style="padding: 10px; border-radius: 5px; background-color: #f2f2f2;">
+                                                    <span t-esc="env.pos.format_currency(difference)" />
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                             </table>
+                        </div>
+                        
+                        <t t-if="getConfig.sales_recapitulation">
+                            <div class="report-sales-recapitulation">
+                                <div class="report-title">
+                                    <span>
+                                        <strong>Sales Recapitulation</strong>
+                                    </span>
+                                </div>
+                                <t t-if="payment_method.length != 0">
+                                    <div class="report-content">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Description</th>
+                                                    <th class="text-right">Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <div>
+                                                            Net Sales
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="text-right">
+                                                            <span
+                                                                t-esc="env.pos.format_currency(net_sales)" />
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div>
+                                                            <span style="margin-left: 50px;">PB1</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="text-right">
+                                                            <span
+                                                                t-esc="env.pos.format_currency(tax_total)" />
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div>
+                                                            <span style="margin-left: 50px;">Voucher
+                                                                Sales Total</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="text-right">
+                                                            <span
+                                                                t-esc="env.pos.format_currency(voucher_sales)" />
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div>
+                                                            <span style="margin-left: 50px;">Rounding
+                                                                Total</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="text-right">
+                                                            <span
+                                                                t-esc="env.pos.format_currency(total_rounding_sales)" />
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div>
+                                                            Gross Sales
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="text-right">
+                                                            <span
+                                                                t-esc="env.pos.format_currency(gross_sales)" />
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <t t-if="env.pos.config.module_pos_restaurant">
+                                                    <tr>
+                                                        <td>
+                                                            <div>
+                                                                Pax Total
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="text-right">
+                                                                <span t-esc="guest_sales" />
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div>
+                                                                Average Net Sales per Pax
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="text-right">
+                                                                <span
+                                                                    t-esc="env.pos.format_currency(average_net_sales_per_guest)" />
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div>
+                                                                Average Gross Sales per Pax
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div
+                                                                style="text-align: right; padding: 10px; font-size: larger;">
+                                                                <span
+                                                                    t-esc="env.pos.format_currency(average_gross_sales_per_guest)" />
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </t>
+                                                <tr>
+                                                    <td>
+                                                        <div>
+                                                            Number Of Bills
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div
+                                                            style="text-align: right; padding: 10px; font-size: larger;">
+                                                            <span t-esc="bills" />
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div>
+                                                            Average Net Sales per Bill
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div
+                                                            style="text-align: right; padding: 10px; font-size: larger;">
+                                                            <span
+                                                                t-esc="env.pos.format_currency(average_net_sales_per_bills)" />
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div>
+                                                            Average Gross Sales per Bill
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="text-right">
+                                                            <span
+                                                                t-esc="env.pos.format_currency(average_gross_sales_per_bills)" />
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </t>
+                                <t t-else="">
+                                    <div
+                                        style="display: flex;justify-content: center; flex-direction: column; align-items: center; padding: 20px;">
+                                        <div>
+                                            <img style="pointer-events: none;"
+                                                src="/web/static/img/neutral_face.svg" alt="Empty" />
+                                        </div>
+                                        <div>
+                                            <strong>
+                                                <span style="font-size: large;">There is no
+                                                    transaction</span>
+                                            </strong>
+                                        </div>
+                                    </div>
+                                </t>
+                            </div>
+                        </t>
+
+                        <t t-if="getConfig.sales_payment_recapitulation">
+                            <div class="report-sales-payment-recapitulation">
+                                <div class="report-title">
+                                    <span><strong>Sales Payment Recapitulation</strong></span>
+                                </div>
+                                <t t-if="payment_method.length != 0">
+                                    <div class="report-content">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Payment Method</th>
+                                                    <th class="text-right">Payment Amount</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <t t-foreach="payment_method" t-as="payment" t-key="payment.payment_method">
+                                                    <tr>
+                                                        <td>
+                                                            <div><span t-esc="payment.payment_method" /></div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="text-right"><span t-esc="env.pos.format_currency(payment.amount)" /></div>
+                                                        </td>
+                                                    </tr>
+                                                </t>
+                                                <tr>
+                                                    <td>
+                                                        <div><strong>TOTAL</strong></div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="text-right"><strong><span
+                                                                    t-esc="env.pos.format_currency(payment_method_total)" /></strong></div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </t>
+                                <t t-else="">
+                                <div class="report-blank">
+                                    <div>
+                                        <img src="/web/static/img/neutral_face.svg" alt="Empty" />
+                                    </div>
+                                    <div>
+                                        <strong><span>There is no transaction</span></strong>
+                                    </div>
+                                </div>
+                            </t>
+                            </div>
+                        </t>
+
+                        <t t-if="getConfig.sales_payment_recap_by_cashier">
+                            <div class="report-sales-menu">
+                                <div class="report-title">
+                                    <span>
+                                        <strong>Sales Payment Recap By Cashier</strong>
+                                    </span>
+                                </div>
+                                <t t-if="payment_method.length != 0">
+                                    <div class="report-content">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Cashier</th>
+                                                    <th class="text-right">Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <t t-foreach="payment_method_by_cashier" t-as="data"
+                                                    t-key="data.cashier">
+                                                    <tr>
+                                                        <td>
+                                                            <div>
+                                                                <span t-esc="data.cashier" />
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <t t-foreach="data.payments" t-as="payment"
+                                                        t-key="data.id">
+                                                        <tr>
+                                                            <td style="padding-left: 50px">
+                                                                <div>
+                                                                    <span
+                                                                        t-esc="payment.payment_method" />
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="text-right">
+                                                                    <span
+                                                                        t-esc="env.pos.format_currency(payment.amount)" />
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </t>
+                                                </t>
+                                                <tr>
+                                                    <td>
+                                                        <div>
+                                                            <strong>TOTAL</strong>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="text-right">
+                                                            <strong>
+                                                                <span
+                                                                    t-esc="env.pos.format_currency(payment_method_by_cashier_total)" />
+                                                            </strong>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </t>
+                                <t t-else="">
+                                    <div class="report-blank">
+                                        <div>
+                                            <img src="/web/static/img/neutral_face.svg" alt="Empty" />
+                                        </div>
+                                        <div>
+                                            <strong>
+                                                <span>There is no transaction</span>
+                                            </strong>
+                                        </div>
+                                    </div>
+                                </t>
+                            </div>
+                        </t>
+
+                        <t t-if="getConfig.sales_by_order_type">
+                            <div class="report-sales-menu">
+                                <div class="report-title">
+                                    <span><strong>Sales By Order Type</strong></span>
+                                </div>
+                                <t t-if="payment_method.length != 0">
+                                    <div class="report-content">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Order Type</th>
+                                                    <th class="text-right">Qty</th>
+                                                    <th class="text-right">Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <t t-foreach="sales_by_order_type.data" t-as="data"
+                                                    t-key="data.id">
+                                                    <tr>
+                                                        <td>
+                                                            <div><span t-esc="data.name" /></div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="text-right"><span t-esc="data.qty" /></div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="text-right"><span t-esc="env.pos.format_currency(data.total)" /></div>
+                                                        </td>
+                                                    </tr>
+                                                </t>
+                                                <tr>
+                                                    <td>
+                                                        <div><strong>TOTAL</strong></div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="text-right">
+                                                            <span
+                                                                t-esc="sales_by_order_type.total_qty" />
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="text-right"><strong><span
+                                                                    t-esc="env.pos.format_currency(sales_by_order_type.total)" /></strong></div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </t>
+                                <t t-else="">
+                                <div class="report-blank">
+                                    <div>
+                                        <img src="/web/static/img/neutral_face.svg" alt="Empty" />
+                                    </div>
+                                    <div>
+                                        <strong><span>There is no transaction</span></strong>
+                                    </div>
+                                </div>
+                            </t>
+                            </div>
+                        </t>
+
+                        <t t-if="getConfig.sales_menu">
+                            <div class="report-sales-menu">
+                                <div class="report-title">
+                                    <span><strong>Sales Menu</strong></span>
+                                </div>
+                                <t t-if="payment_method.length != 0">
+                                    <div class="report-content">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Menu</th>
+                                                    <th class="text-right">Qty</th>
+                                                    <th class="text-right">Subtotal</th>
+                                                    <th class="text-right">Pajak</th>
+                                                    <th class="text-right">Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <t t-foreach="order_menu.result" t-as="order" t-key="order.full_product_name">
+                                                    <tr>
+                                                        <td><div><span t-esc="order.full_product_name" /></div></td>
+                                                        <td><div class="text-right"><span t-esc="order.qty" /></div></td>
+                                                        <td><div class="text-right"><span t-esc="env.pos.format_currency(order.price_subtotal)" /></div></td>
+                                                        <td><div class="text-right"><span t-esc="env.pos.format_currency(order.ppn)" /></div></td>
+                                                        <td><div class="text-right"><span t-esc="env.pos.format_currency(order.price_subtotal_incl)" /></div></td>
+                                                    </tr>
+                                                </t>
+                                                <tr>
+                                                    <td><div><strong>TOTAL</strong></div></td>
+                                                    <td><div class="text-right"><strong><span t-esc="order_menu.total_order_menu_qty" /></strong></div></td>
+                                                    <td><div class="text-right"><strong><span t-esc="env.pos.format_currency(order_menu.total_order_menu_subtotal)" /></strong></div></td>
+                                                    <td><div class="text-right"><strong><span t-esc="env.pos.format_currency(order_menu.total_order_menu_ppn)" /></strong></div></td>
+                                                    <td><div class="text-right"><strong><span t-esc="env.pos.format_currency(order_menu.total_order_menu_total)" /></strong></div></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </t>
+                                <t t-else="">
+                                    <div class="report-blank">
+                                        <div>
+                                            <img src="/web/static/img/neutral_face.svg" alt="Empty" />
+                                        </div>
+                                        <div>
+                                            <strong><span>There is no transaction</span></strong>
+                                        </div>
+                                    </div>
+                                </t>
+                            </div>
+                        </t>
+
+                        <t
+                            t-if="getConfig.promotion_summary and env.pos.config.module_pos_discount">
+                            <div class="report-promotion-summary">
+                                <div class="report-title">
+                                    <span><strong>Promotion Summary</strong></span>
+                                </div>
+                                <t t-if="payment_method.length != 0">
+                                    <div class="report-content">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Promotion Name</th>
+                                                    <th class="text-right">Qty</th>
+                                                    <th class="text-right">Discount Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <t t-foreach="line_promo.result" t-as="line" t-key="line.promotion_name">
+                                                    <tr>
+                                                        <td><div><span t-esc="line.promotion_name" /></div></td>
+                                                        <td><div class="text-right"><span t-esc="line.qty" /></div></td>
+                                                        <td><div class="text-right"><span t-esc="env.pos.format_currency(line.total)" /></div></td>
+                                                    </tr>
+                                                </t>
+                                                <tr>
+                                                    <td><div><strong>TOTAL</strong></div></td>
+                                                    <td><div class="text-right"><strong><span t-esc="line_promo.qty_total" /></strong></div></td>
+                                                    <td><div class="text-right"><strong><span t-esc="env.pos.format_currency(line_promo.grand_total)" /></strong></div></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </t>
+                                <t t-else="">
+                                <div class="report-blank">
+                                    <div>
+                                        <img src="/web/static/img/neutral_face.svg" alt="Empty" />
+                                    </div>
+                                    <div>
+                                        <strong><span>There is no transaction</span></strong>
+                                    </div>
+                                </div>
+                            </t>
+                            </div>
+                        </t>
+
+                        <t t-if="getConfig.non_sales_bill_summary and _check_is_module_pos_complimentary_installed">
+                            <div class="report-non-sales-bill-summary">
+                                <div class="report-title">
+                                    <span><strong>Non Sales Bill Summary</strong></span>
+                                </div>
+                                <t t-if="payment_method.length != 0">
+                                    <div class="report-content">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>SalesNum</th>
+                                                    <th class="text-right">Grand Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <t t-foreach="non_sales_bill.result" t-as="bill" t-key="bill.id">
+                                                    <tr>
+                                                        <td><div><span t-esc="bill.pos_reference" /></div></td>
+                                                        <td><div class="text-right"><span t-esc="env.pos.format_currency(bill.orderCost)" /></div></td>
+                                                    </tr>
+                                                </t>
+                                                <tr>
+                                                    <td><div><strong>TOTAL</strong></div></td>
+                                                    <td><div class="text-right"><strong><span t-esc="env.pos.format_currency(non_sales_bill.sum)" /></strong></div></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </t>
+                                <t t-else="">
+                                <div class="report-blank">
+                                    <div>
+                                        <img src="/web/static/img/neutral_face.svg" alt="Empty" />
+                                    </div>
+                                    <div>
+                                        <strong><span>There is no transaction</span></strong>
+                                    </div>
+                                </div>
+                            </t>
+                            </div>
+                        </t>
+
+                        <t t-if="getConfig.non_sales_menu_summary and _check_is_module_pos_complimentary_installed">
+                            <div class="report-non-sales-menu-summary">
+                                <div class="report-title">
+                                    <span><strong>Non Sales Menu Summary</strong></span>
+                                </div>
+                                <t t-if="payment_method.length != 0">
+                                    <div class="report-content">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Menu Name</th>
+                                                    <th class="text-right">Qty</th>
+                                                    <th class="text-right">Grand Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <t t-foreach="non_sales_menu" t-as="menu" t-key="menu.full_product_name">
+                                                    <tr>
+                                                        <td><div><span t-esc="menu.full_product_name" /></div></td>
+                                                        <td><div class="text-right"><span t-esc="menu.qty" /></div></td>
+                                                        <td><div class="text-right"><span t-esc="env.pos.format_currency(menu.total_cost)" /></div></td>
+                                                    </tr>
+                                                </t>
+                                                <tr>
+                                                    <td><div><strong>TOTAL</strong></div></td>
+                                                    <td><div class="text-right"><strong>0</strong></div></td>
+                                                    <td><div class="text-right"><strong>0</strong></div></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </t>
+                                <t t-else="">
+                                    <div class="report-blank">
+                                        <div>
+                                            <img src="/web/static/img/neutral_face.svg" alt="Empty" />
+                                        </div>
+                                        <div>
+                                            <strong><span>There is no transaction</span></strong>
+                                        </div>
+                                    </div>
+                                </t>
+                            </div>
+                        </t>
+
+                        <t t-if="getConfig.sales_by_menu">
+                            <div class="report-sales-by-menu">
+                                <div class="report-title">
+                                    <span><strong>Sales By Menu</strong></span>
+                                </div>
+                                <t t-if="payment_method.length != 0">
+                                    <div class="report-content">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        <div>
+                                                            <div>
+                                                                Description
+                                                            </div>
+                                                            <div>
+                                                                Qty
+                                                            </div>
+                                                            <div style="text-align: right;">
+                                                                Value
+                                                            </div>
+                                                        </div>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <t t-foreach="orderline_sales" t-as="line" t-key="line.category_name">
+                                                    <tr>
+                                                        <td style="padding: 10px; font-size: larger;">
+                                                            <div style="display: flex; align-items: stretch;">
+                                                                <div style="flex-grow: 10; margin: 5px; text-transform: uppercase;">
+                                                                    <li style="padding-bottom: 5px;">
+                                                                        <strong><span t-esc="line.category_name" /></strong>
+                                                                    </li>
+                                                                    <ul t-if="line.order_line_sum" style="padding-left: 30px;">
+                                                                        <t t-foreach="line.order_line_sum" t-as="line" t-key="line.product_name">
+                                                                            <li>
+                                                                                <div class="flex_category">
+                                                                                    <div><span t-esc="line.product_name" /></div>
+                                                                                    <div><span t-esc="line.total_qty" /></div>
+                                                                                    <div><span t-esc="env.pos.format_currency(line.subtotal)" /></div>
+                                                                                </div>
+                                                                            </li>
+                                                                        </t>
+                                                                    </ul>
+                                                                    <SalesByMenu line="line" />
+                                                                    <li>
+                                                                        <div class="flex_category">
+                                                                            <div><strong>Total <span t-esc="line.category_name" /></strong></div>
+                                                                            <div><strong><span t-esc="line.total_qty" /></strong></div>
+                                                                            <div><strong><span t-esc="env.pos.format_currency(line.subtotal)" /></strong></div>
+                                                                        </div>
+                                                                    </li>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </t>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </t>
+                                <t t-else="">
+                                    <div class="report-blank">
+                                        <div>
+                                            <img src="/web/static/img/neutral_face.svg" alt="Empty" />
+                                        </div>
+                                        <div>
+                                            <strong><span>There is no transaction</span></strong>
+                                        </div>
+                                    </div>
+                                </t>
+                            </div>
+                        </t>
+
+                        <t t-if="getConfig.non_sales_by_menu and _check_is_module_pos_complimentary_installed">
+                            <div class="report-non-sales-by-menu">
+                                <div class="report-title">
+                                    <span><strong>Non Sales By Menu</strong></span>
+                                </div>
+                                <t t-if="payment_method.length != 0">
+                                    <div class="report-content">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        <div>
+                                                            <div>
+                                                                Description
+                                                            </div>
+                                                            <div>
+                                                                Qty
+                                                            </div>
+                                                            <div style="text-align: right;">
+                                                                Value
+                                                            </div>
+                                                        </div>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <t t-foreach="orderline_non_sales" t-as="line" t-key="line.category_name">
+                                                    <tr>
+                                                        <td style="padding: 10px; font-size: larger;">
+                                                            <div style="display: flex; align-items: stretch;">
+                                                                <div style="flex-grow: 10; margin: 5px; text-transform: uppercase;">
+                                                                    <li style="padding-bottom: 5px;">
+                                                                        <strong><span t-esc="line.category_name" /></strong>
+                                                                    </li>
+                                                                    <ul t-if="line.order_line_sum" style="padding-left: 30px;">
+                                                                        <t t-foreach="line.order_line_sum" t-as="line" t-key="line.product_name">
+                                                                            <li>
+                                                                                <div class="flex_category">
+                                                                                    <div><span t-esc="line.product_name" /></div>
+                                                                                    <div><span t-esc="line.total_qty" /></div>
+                                                                                    <div><span t-esc="env.pos.format_currency(line.subtotal)" /></div>
+                                                                                </div>
+                                                                            </li>
+                                                                        </t>
+                                                                    </ul>
+                                                                    <SalesByMenu line="line" />
+                                                                    <li>
+                                                                        <div class="flex_category">
+                                                                            <div><strong>Total <span t-esc="line.category_name" /></strong></div>
+                                                                            <div><strong><span t-esc="line.total_qty" /></strong></div>
+                                                                            <div><strong><span t-esc="env.pos.format_currency(line.subtotal)" /></strong></div>
+                                                                        </div>
+                                                                    </li>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </t>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </t>
+                                <t t-else="">
+                                    <div class="report-blank">
+                                        <div>
+                                            <img src="/web/static/img/neutral_face.svg" alt="Empty" />
+                                        </div>
+                                        <div>
+                                            <strong><span>There is no transaction</span></strong>
+                                        </div>
+                                    </div>
+                                </t>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

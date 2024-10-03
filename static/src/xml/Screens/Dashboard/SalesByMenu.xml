@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="SalesByMenu" owl="1">
+        <ul t-if="props.line.child_ids" class="child_category">
+            <t t-foreach="props.line.child_ids" t-as="line" t-key="line.category_name">
+                <li>
+                    <strong><span t-esc="line.category_name" /></strong>
+                </li>
+                <ul t-if="line.order_line_sum" class="child_category">
+                    <t t-foreach="line.order_line_sum" t-as="line" t-key="line.product_name">
+                        <li>
+                            <div class="flex_category">
+                                <div><span t-esc="line.product_name" /></div>
+                                <div><span t-esc="line.total_qty" /></div>
+                                <div><span t-esc="env.pos.format_currency(line.subtotal)" /></div>
+                            </div>
+                        </li>
+                    </t>
+                </ul>
+                <li>
+                    <div class="flex_category">
+                        <div><strong>Total <span t-esc="line.category_name" /></strong></div>
+                        <div><strong><span t-esc="line.total_qty" /></strong></div>
+                        <div><strong><span t-esc="env.pos.format_currency(line.subtotal)" /></strong></div>
+                    </div>
+                </li>
+                <SalesByMenu line="line" />
+            </t>
+        </ul>
+    </t>
+</templates>
