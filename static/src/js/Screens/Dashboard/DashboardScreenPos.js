@@ -30,8 +30,8 @@ odoo.define('custom_sudo_pos_dashboard.DashboardScreenPos', function (require) {
             this.session_shift = this.env.pos?.default_pos_shift_ids ? this.env.pos.get_shift() : []
 
             this.state = useState({
-                shown_shift: this?.env?.pos?.default_pos_shift_ids?.name ?? 0,
-                id_shown_shift: this?.env?.pos?.default_pos_shift_ids?.id ?? 0,
+                shown_shift: this?.env?.pos?.default_pos_shift_ids?.name ?? null,
+                id_shown_shift: this?.env?.pos?.default_pos_shift_ids?.id ?? null,
             });
 
             useEffect(
@@ -67,14 +67,14 @@ odoo.define('custom_sudo_pos_dashboard.DashboardScreenPos', function (require) {
 
         filterShift(data) {
             if (this.state.id_shown_shift && this?.env?.pos?.default_pos_shift_ids)
-                return data.filter((d) => d.shift == this.state.id_shown_shift);
+                return data.filter((d) => d.shift_id[0] == this.state.id_shown_shift);
             return data;
         }
 
         set_shown_shift(shift) {
             const shift_data = this.session_shift.find((d) => d.id == shift)?.name
             this.state.id_shown_shift = shift;
-            this.state.shown_shift = shift_data ?? 0;
+            this.state.shown_shift = shift_data ?? null;
         }
 
         async endShift() {
@@ -112,16 +112,16 @@ odoo.define('custom_sudo_pos_dashboard.DashboardScreenPos', function (require) {
                 id: d.id,
                 label: `Shift ${d.name}`,
                 isSelected:
-                    this.state.id_shown_shift &&
+                    this.state.id_shown_shift !== null &&
                     d.id === this.state.id_shown_shift,
                 item: d.id
             }));
 
             shiftList.push({
-                id: shiftList.length + 1,
+                id: null,
                 label: "Show All",
-                isSelected: !this.state.id_shown_shift,
-                item: 0
+                isSelected: this.state.id_shown_shift === null,
+                item: null
             });
 
             const { confirmed, payload } = await this.showPopup("SelectionPopup", {
@@ -135,7 +135,7 @@ odoo.define('custom_sudo_pos_dashboard.DashboardScreenPos', function (require) {
         }
 
         get get_shift_value() {
-            return this.state.shown_shift
+            return this.state.shown_shift !== null
                 ? `Shown Shift: ${this.state.shown_shift}`
                 : this.env._t("Report Shift");
         }

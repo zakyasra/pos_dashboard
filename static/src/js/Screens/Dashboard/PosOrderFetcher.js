@@ -18,7 +18,6 @@ odoo.define('custom_sudo_pos_dashboard.PosOrderFetcher', function (require) {
         }
 
         async fetch(shift) {
-            console.log(shift ? true : false);
             try {
                 this.is_module_pos_complimentary_installed = await this._fetch_check_module();
                 this.todayPayments = await this._fetch_payments(shift);
@@ -76,11 +75,11 @@ odoo.define('custom_sudo_pos_dashboard.PosOrderFetcher', function (require) {
             let domain = [['session_id', '=', this.comp.env.pos.pos_session.id]]
 
             if (shift) {
-                domain.push(['pos_order_id.shift', '=', shift])
+                domain.push(['pos_order_id.shift_id', '=', shift])
             }
 
             if (this.comp.env.pos?.default_pos_shift_ids) {
-                fields.push('shift')
+                fields.push('shift_id')
             }
 
             return await this.rpc({
@@ -100,7 +99,7 @@ odoo.define('custom_sudo_pos_dashboard.PosOrderFetcher', function (require) {
             }
 
             if (this.comp.env.pos?.default_pos_shift_ids) {
-                fields.push('shift')
+                fields.push('shift_id')
             }
 
             return await this.rpc({
@@ -191,7 +190,6 @@ odoo.define('custom_sudo_pos_dashboard.PosOrderFetcher', function (require) {
         async rpc() {
             Gui.setSyncStatus('connecting');
             const result = await this.comp.rpc(...arguments);
-            console.log(result);
             Gui.setSyncStatus('connected');
             return result;
         }

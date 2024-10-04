@@ -92,7 +92,7 @@ class PosOrderLine(models.Model):
         ]
 
         if shift:
-            domain.append(('order_id.shift', '=', shift))
+            domain.append(('order_id.shift_id', '=', shift))
         
         if is_module_pos_complimentary_installed:
             domain.append(('order_id.pricelist_id.is_complimentary', '=', is_complimentary))
