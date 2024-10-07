@@ -379,7 +379,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <t t-foreach="payment_method_by_cashier" t-as="data"
+                                                <t t-foreach="payment_method_by_cashier.result" t-as="data"
                                                     t-key="data.cashier">
                                                     <tr>
                                                         <td>
@@ -387,9 +387,10 @@
                                                                 <span t-esc="data.cashier" />
                                                             </div>
                                                         </td>
+                                                        <td></td>
                                                     </tr>
                                                     <t t-foreach="data.payments" t-as="payment"
-                                                        t-key="data.id">
+                                                        t-key="data.cashier + '-' + payment.payment_method">
                                                         <tr>
                                                             <td style="padding-left: 50px">
                                                                 <div>
@@ -416,7 +417,7 @@
                                                         <div class="text-right">
                                                             <strong>
                                                                 <span
-                                                                    t-esc="env.pos.format_currency(payment_method_by_cashier_total)" />
+                                                                    t-esc="env.pos.format_currency(payment_method_by_cashier.totalPayment)" />
                                                             </strong>
                                                         </div>
                                                     </td>
@@ -440,7 +441,7 @@
                             </div>
                         </t>
 
-                        <t t-if="getConfig.sales_by_order_type">
+                        <!-- <t t-if="getConfig.sales_by_order_type">
                             <div class="report-sales-menu">
                                 <div class="report-title">
                                     <span><strong>Sales By Order Type</strong></span>
@@ -500,7 +501,7 @@
                                 </div>
                             </t>
                             </div>
-                        </t>
+                        </t> -->
 
                         <t t-if="getConfig.sales_menu">
                             <div class="report-sales-menu">

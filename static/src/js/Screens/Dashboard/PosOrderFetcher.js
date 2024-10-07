@@ -9,6 +9,7 @@ odoo.define('custom_sudo_pos_dashboard.PosOrderFetcher', function (require) {
     class PosOrderFetcher extends EventBus {
         constructor() {
             super();
+            this.isLoading = false
             this.todayPayments = [];
             this.todayOrderMenu = [];
             this.menu = [];
@@ -17,14 +18,28 @@ odoo.define('custom_sudo_pos_dashboard.PosOrderFetcher', function (require) {
             this.is_module_pos_complimentary_installed = false
         }
 
-        async fetch(shift) {
+        async fetch(shift = null) {
+            if (this.isLoading) {
+                return
+            }
+
             try {
-                this.is_module_pos_complimentary_installed = await this._fetch_check_module();
-                this.todayPayments = await this._fetch_payments(shift);
-                this.todayOrderMenu = await this._fetch_orderMenu();
-                this.menu = await this._fetch_menu();
-                this.orderline = await this._fetch_orderline(shift);
-                this.order = await this._fetch_order();
+                this.isLoading = true
+                const [is_module_pos_complimentary_installed, todayPayments, todayOrderMenu, menu, orderline, order] = await Promise.all([
+                    this._fetch_check_module(),
+                    this._fetch_payments(shift),
+                    this._fetch_orderMenu(shift),
+                    this._fetch_menu(),
+                    this._fetch_orderline(shift),
+                    this._fetch_order(shift),
+                ]);
+
+                this.is_module_pos_complimentary_installed = is_module_pos_complimentary_installed
+                this.todayPayments = todayPayments;
+                this.todayOrderMenu = todayOrderMenu;
+                this.menu = menu;
+                this.orderline = orderline;
+                this.order = order;
 
                 this.trigger('update');
             } catch (error) {
@@ -37,6 +52,8 @@ odoo.define('custom_sudo_pos_dashboard.PosOrderFetcher', function (require) {
                 } else {
                     throw error;
                 }
+            } finally {
+                this.isLoading = false
             }
         }
 
@@ -45,13 +62,13 @@ odoo.define('custom_sudo_pos_dashboard.PosOrderFetcher', function (require) {
             return orders
         }
 
-        async _fetch_order() {
-            const order = await this._getOrder();
+        async _fetch_order(shift) {
+            const order = await this._getOrder(shift);
             return order
         }
 
-        async _fetch_orderMenu() {
-            const orderMenu = await this._getOrderMenu();
+        async _fetch_orderMenu(shift) {
+            const orderMenu = await this._getOrderMenu(shift);
             return orderMenu
         }
 
@@ -91,8 +108,9 @@ odoo.define('custom_sudo_pos_dashboard.PosOrderFetcher', function (require) {
             })
         }
 
-        async _getOrder() {
+        async _getOrder(shift) {
             let fields = ['name', 'margin', 'amount_tax', 'amount_total', 'amount_paid', 'lines', 'pricelist_id', 'pos_reference']
+            let domain = [['session_id', '=', this.comp.env.pos.pos_session.id]]
 
             if (this.comp.env.pos.config.module_pos_restaurant) {
                 fields.push('customer_count')
@@ -102,21 +120,31 @@ odoo.define('custom_sudo_pos_dashboard.PosOrderFetcher', function (require) {
                 fields.push('shift_id')
             }
 
+            if (shift) {
+                domain.push(['shift_id', '=', shift])
+            }
+
             return await this.rpc({
                 model: 'pos.order',
                 method: 'search_read',
                 fields: fields,
-                domain: [['session_id', '=', this.comp.env.pos.pos_session.id]],
+                domain: domain,
                 context: this.comp.env.session.user_context,
             })
         }
 
-        async _getOrderMenu() {
+        async _getOrderMenu(shift) {
+            let domain = [['order_id.session_id', '=', this.comp.env.pos.pos_session.id]]
+
+            if (shift) {
+                domain.push(['order_id.shift_id', '=', shift])
+            }
+
             return await this.rpc({
                 model: 'pos.order.line',
                 method: 'search_read',
                 fields: ['product_id', 'full_product_name', 'qty', 'price_subtotal', 'price_subtotal_incl', 'order_id', 'total_cost'],
-                domain: [['order_id.session_id', '=', this.comp.env.pos.pos_session.id]],
+                domain: domain,
                 context: this.comp.env.session.user_context,
             })
         }
@@ -180,6 +208,10 @@ odoo.define('custom_sudo_pos_dashboard.PosOrderFetcher', function (require) {
 
         get_is_module_pos_complimentary_installed(id) {
             return this.is_module_pos_complimentary_installed;
+        }
+
+        get_is_loading() {
+            return this.isLoading
         }
 
         setComponent(comp) {

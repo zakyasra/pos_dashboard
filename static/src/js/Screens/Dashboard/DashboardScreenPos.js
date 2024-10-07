@@ -37,7 +37,7 @@ odoo.define('custom_sudo_pos_dashboard.DashboardScreenPos', function (require) {
             useEffect(
                 () => {
                     console.log('fetching');
-                    PosOrderFetcher.fetch(this.state.id_shown_shift);
+                    PosOrderFetcher.fetch(this.state.id_shown_shift)
                 },
                 () => [this.state.id_shown_shift])
         }
@@ -66,15 +66,15 @@ odoo.define('custom_sudo_pos_dashboard.DashboardScreenPos', function (require) {
         }
 
         filterShift(data) {
-            if (this.state.id_shown_shift && this?.env?.pos?.default_pos_shift_ids)
-                return data.filter((d) => d.shift_id[0] == this.state.id_shown_shift);
+            // if (this.state.id_shown_shift && this?.env?.pos?.default_pos_shift_ids)
+            //     return data.filter((d) => d.shift_id[0] == this.state.id_shown_shift);
             return data;
         }
 
         set_shown_shift(shift) {
-            const shift_data = this.session_shift.find((d) => d.id == shift)?.name
+            const shift_data = this.session_shift?.find((d) => d.id == shift)
             this.state.id_shown_shift = shift;
-            this.state.shown_shift = shift_data ?? null;
+            this.state.shown_shift = shift_data ? shift_data?.name : null;
         }
 
         async endShift() {
@@ -130,6 +130,7 @@ odoo.define('custom_sudo_pos_dashboard.DashboardScreenPos', function (require) {
             });
 
             if (confirmed) {
+                console.log(payload);
                 this.set_shown_shift(payload);
             }
         }
@@ -287,7 +288,6 @@ odoo.define('custom_sudo_pos_dashboard.DashboardScreenPos', function (require) {
 
         get payment_method() {
             var payment_lines = PosOrderFetcher.get_payments();
-
             var result = [];
             payment_lines.reduce(function (res, value) {
                 if (!res[value.payment_method_id[1]]) {
@@ -340,15 +340,22 @@ odoo.define('custom_sudo_pos_dashboard.DashboardScreenPos', function (require) {
                 payments: Object.values(cashier.payments)
             }));
 
-            return result;
-        }
-
-        get payment_method_by_cashier_total() {
-            const totalPayment = this.payment_method_by_cashier.reduce((acc, cashier) => {
+            const totalPayment = result?.reduce((acc, cashier) => {
                 const payments = Object.values(cashier.payments)
                 const cashierTotal = payments.reduce((sum, payment) => sum + payment.amount, 0);
                 return acc + cashierTotal;
             }, 0);
+
+            return { result: result, totalPayment: totalPayment };
+        }
+
+        get payment_method_by_cashier_total() {
+            const totalPayment = this.payment_method_by_cashier?.reduce((acc, cashier) => {
+                const payments = Object.values(cashier.payments)
+                const cashierTotal = payments.reduce((sum, payment) => sum + payment.amount, 0);
+                return acc + cashierTotal;
+            }, 0);
+
 
             return totalPayment;
         }
@@ -368,7 +375,7 @@ odoo.define('custom_sudo_pos_dashboard.DashboardScreenPos', function (require) {
                     var pricelist = _.find(pricelists, function (pricelist) {
                         return pricelist.display_name === curr_order.pricelist_id[1];
                     });
-                    if (!pricelist.is_complimentary) {
+                    if (!pricelist?.is_complimentary) {
                         filter_line.push(res);
                     }
                 }
@@ -528,7 +535,7 @@ odoo.define('custom_sudo_pos_dashboard.DashboardScreenPos', function (require) {
                 var pricelist = _.find(pricelists, function (item) {
                     return item.id === obj.pricelist_id[0];
                 });
-                if (pricelist.is_complimentary) {
+                if (pricelist?.is_complimentary) {
                     var orderPriceWithoutTax = obj.amount_total - obj.amount_tax;
                     var orderCost = orderPriceWithoutTax + Math.abs(obj.margin);
                     obj['orderCost'] = orderCost;
@@ -562,7 +569,7 @@ odoo.define('custom_sudo_pos_dashboard.DashboardScreenPos', function (require) {
                     var pricelist = _.find(pricelists, function (pricelist) {
                         return pricelist.display_name === curr_order.pricelist_id[1];
                     });
-                    if (pricelist.is_complimentary) {
+                    if (pricelist?.is_complimentary) {
                         filter_line.push(res);
                     }
                 }
